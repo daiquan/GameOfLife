@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameOfLife.GameService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,11 @@ namespace GameOfLife.Controllers
 {
     public class HomeController : Controller
     {
+        private IGameOfLifeService _game;
+        public HomeController(IGameOfLifeService game)
+        {
+            _game = game;
+        }
         public ActionResult Index()
         {
             return View();
@@ -15,7 +21,7 @@ namespace GameOfLife.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = _game.GameName;
 
             return View();
         }
