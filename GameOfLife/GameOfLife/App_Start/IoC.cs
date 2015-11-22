@@ -32,11 +32,20 @@ namespace GameOfLife
         }
 
         private static IWindsorContainer container;
+        public static IWindsorContainer InitIoC()
+        {
+            container = new WindsorContainer().Install(FromAssembly.InThisApplication());
+            return container;
+        }
         public static void ConfigureIoC() {
-            container = new WindsorContainer().Install(FromAssembly.This());
+            if(container == null)
+            {
+                InitIoC();
+            }
             var controllerFactory = new WindsorControllerFactory(container.Kernel);
             ControllerBuilder.Current.SetControllerFactory(controllerFactory);
         }
+
 
         public static void Dispose()
         {
