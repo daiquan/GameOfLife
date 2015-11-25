@@ -32,5 +32,11 @@ namespace GameOfLife.Controllers
 
             return View();
         }
+
+        public ActionResult CreateBoard(int boardSize)
+        {
+           var board = _game.InitGame(boardSize);
+            return View("Index", board);
+        }
     }
 }
