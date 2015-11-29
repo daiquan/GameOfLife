@@ -4,18 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Castle.Core.Logging;
 
 namespace GameOfLife.Controllers
 {
     public class HomeController : Controller
     {
+        // this is Castle.Core.Logging.ILogger, not log4net.Core.ILogger
+        public ILogger Logger { get; set; }
         private IGameOfLifeService _game;
-        public HomeController(IGameOfLifeService game)
+        public HomeController(IGameOfLifeService game, ILogger Logger)
         {
+            this.Logger = Logger;
             _game = game;
         }
         public ActionResult Index()
         {
+            Logger.InfoFormat("Hello!");
             return View();
         }
 
