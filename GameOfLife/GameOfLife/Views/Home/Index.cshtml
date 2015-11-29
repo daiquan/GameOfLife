@@ -25,9 +25,19 @@
         {
             foreach (var cell in Model.BoardCells)
             {
-                <div style="width:30px;height:30px; border: solid;float:left"></div>
+                if (1 == cell.Column)
+                {
+                    <div class="after-box floating-box"></div>
+                }
+                else
+                {
+                    <div class="floating-box"></div>
+                }
+
             }
         }
 
+
+        
     </div>
 </div>

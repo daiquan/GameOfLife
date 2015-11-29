@@ -18,6 +18,8 @@ namespace GameOfLife.Models
             BoardCells = (from cr in boardRange
                            from cc in boardRange
                            select new Cell(cr, cc,false)).ToList();
+
+            Size = size;
         }
     }
 }
