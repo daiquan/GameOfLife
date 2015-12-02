@@ -15,43 +15,31 @@
 
 
 <div class="row">
-    <div class="col-md-4">
-        <div class="center-div">
-            @using (Html.BeginForm("CreateBoard", "Home"))
-            {
-                <input type="text" name="boardSize"/>
-                <input type="submit" value="Create Board"/>
-            }
-        </div>
-    </div>
-</div>
-
-@*  Comment out these div's to fix the automatic new line for board size
-    larger than 11   
-*@
-@*<div class="row">
-    <div class="col-md-4">*@
-<div class="center-div-board">
-    @if (Model != null)
-    {
-        foreach (var cell in Model.BoardCells)
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+       
+        @using (Html.BeginForm("CreateBoard", "Home"))
         {
-            if ((cell.Column%Model.Size == 1) && (cell.Row > 1))
-            {
-                <div class="after-box floating-box"></div>
-            }
-            else
-            {
-                <div class="floating-box"></div>
-            }
-
+            <input type="text" name="boardSize"/>
+            <input type="submit" value="Create Board"/>
         }
-    }
-
-        
+        @if (Model != null)
+            {
+                foreach (var cell in Model.BoardCells)
+                {
+                    if ((cell.Column % Model.Size == 1) && (cell.Row > 1))
+                    {
+                    <div class="after-box floating-box" data-cell-row="@cell.Row" data-cell-column="@cell.Column"></div>
+                }
+                else
+                {
+                    <div class="floating-box" data-cell-row="@cell.Row" data-cell-column="@cell.Column"></div>
+                }
+            }
+        }
+    </div>
+    <div class="col-md-2"></div>
 </div>
-    @*</div>
-</div>*@
 
 <script type="text/javascript">
     $('.floating-box').click(function() {
@@ -62,4 +50,9 @@
         $(this).toggleClass('after-box-new');
         $(this).toggleClass('after-box');
     });
+    $(document).ready(function () {
+        $.post('/Home/InitBoard', {cells:[{Row:'1',Column:'2'}]}, function () { alert('ok'); });
+     
+    });
+   
 </script>

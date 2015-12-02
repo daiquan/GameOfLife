@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Castle.Core.Logging;
+using GameOfLife.Models;
 
 namespace GameOfLife.Controllers
 {
@@ -43,5 +44,11 @@ namespace GameOfLife.Controllers
            var board = _game.InitGame(boardSize);
             return View("Index", board);
         }
+
+        public ActionResult InitBoard(IEnumerable<Cell> cells)
+        {
+            return Json(true);
+        }
+
     }
 }
