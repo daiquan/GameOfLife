@@ -27,11 +27,51 @@ textarea {
     float: left;
     width: 30px;
     height: 30px;
-    margin: 0px;
-    border: 3px solid blue;  
+    margin: 1px;
+    border: 15px solid blue;  
+}
+
+.floating-box-new {
+    float: left;
+    width: 30px;
+    height: 30px;
+    margin: 1px;
+    border: 15px solid red;  
 }
 
 .after-box {
     clear: left;
-    border: 3px solid blue;      
+    border: 15px solid blue;      
+}
+
+.after-box-new {
+    clear: left;
+    border: 15px solid red;      
+}
+
+.center-div {
+    position: absolute;
+    margin: auto;
+    top: 10px;
+    right: 0;
+    bottom: 0;
+    left: 400px;
+    width: 300px;
+    height: 50px;
+}
+
+.center-div-board {
+    position: absolute;
+    margin: auto;
+    top: 550px;
+    right: 0;
+    bottom: 0;
+    left: 0px;
+    width: 1000px;
+    height: 1000px;
+}
+
+.bottom-footer {
+    position:fixed;
+    bottom:0;
 }
