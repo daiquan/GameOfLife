@@ -31,21 +31,12 @@ textarea {
     border: 15px solid blue;  
 }
 
-.floating-box-new {
-    float: left;
-    width: 30px;
-    height: 30px;
-    margin: 1px;
-    border: 15px solid red;  
-}
-
 .after-box {
     clear: left;
     border: 15px solid blue;      
 }
 
-.after-box-new {
-    clear: left;
+.box-red {
     border: 15px solid red;      
 }
 

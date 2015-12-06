@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Castle.Core.Logging;
 using GameOfLife.Models;
+using GameOfLife.Bindings;
 
 namespace GameOfLife.Controllers
 {
@@ -21,8 +22,8 @@ namespace GameOfLife.Controllers
         }
         public ActionResult Index()
         {
-            Logger.InfoFormat("Hello!");
-            return View();
+            var board = CreateBoard(12);
+            return View(board);
         }
 
         public ActionResult About()
@@ -39,16 +40,16 @@ namespace GameOfLife.Controllers
             return View();
         }
 
-        public ActionResult CreateBoard(int boardSize)
+        public Board CreateBoard(int boardSize)
         {
            var board = _game.InitGame(boardSize);
-            return View("Index", board);
+            return board;
         }
 
         [HttpPost]
-        public ActionResult StartGame(IEnumerable<Cell> cells)
+        public ActionResult StartGame([ModelBinder(typeof(CellBinder))]IEnumerable<Cell> cells)
         {
-            _game.StartGame(cells);
+            // _game.StartGame(cells);
             return Json(true);
         }
 

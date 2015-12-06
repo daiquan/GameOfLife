@@ -1,4 +1,4 @@
-﻿@Model GameOfLife.Models.Board;
+﻿@model GameOfLife.Models.Board
 
 @Scripts.Render("~/bundles/jquery")
 
@@ -12,31 +12,21 @@
     <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
 </div>
 
-
-
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-
-        @using (Html.BeginForm("CreateBoard", "Home"))
-        {
-            <input type="text" name="boardSize"/>
-            <input type="submit" value="Create Board"/>
-
-        }
         @if (Model != null)
         {
-            foreach (var cell in Model.BoardCells)
-            {
-                if ((cell.Column%Model.Size == 1) && (cell.Row > 1))
+            <form action="@Url.Action("StartGame")" method="post" id="frmStartGame">
+                @foreach (var cell in Model.BoardCells)
                 {
-                    <div class="after-box floating-box" data-cell-row="@cell.Row" data-cell-column="@cell.Column"></div>
+                    <div class="@(cell.Column % Model.Size == 1 && cell.Row > 1?"after-box":"") floating-box">
+                        <input type="hidden" name="row_@(cell.Row)_@(cell.Column)" value="@cell.Row" />
+                        <input type="hidden" name="column_@(cell.Row)_@(cell.Column)" value="@cell.Column" />
+                        <input type="hidden" name="live_@(cell.Row)_@(cell.Column)" value="false" />
+                    </div>
                 }
-                else
-                {
-                    <div class="floating-box" data-cell-row="@cell.Row" data-cell-column="@cell.Column"></div>
-                }
-            }
+            </form>
         }
     </div>
     <div class="col-md-2"></div>
@@ -50,25 +40,19 @@
 </div>
 
 <script type="text/javascript">
-    $('.floating-box').click(function() {
-        $(this).toggleClass('floating-box-new');
-        $(this).toggleClass('floating-box');
+    $('.floating-box,.after-box').click(function () {
+        $(this).toggleClass('box-red');
+        var target = $(this).find('[name^="live"]');
+        if ($(target).val() == 'false') {
+            $(target).val('true');
+        }
+        else {
+            $(target).val('false');
+        }
     });
-    $('.after-box').click(function() {
-        $(this).toggleClass('after-box-new');
-        $(this).toggleClass('after-box');
-    });
+
 
     $("#initiate").click(function () {
-        var divCollection = document.getElementsByTagName("div");
-        alertText = "Live Cells:\n";
-        for (var i = 0; i < divCollection.length; i++) {
-            if (divCollection[i].getAttribute("class") == "floating-box-new") {
-                alertText += "Row: " + divCollection[i].getAttribute("data-cell-row") + " Column: " + divCollection[i].getAttribute("data-cell-column") + "\n";
-                //alertText = "AH-HA!";
-            }
-        }
-        alert(alertText);
+        $('#frmStartGame').submit();
     });
-
 </script>
