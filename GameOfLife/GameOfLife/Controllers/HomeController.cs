@@ -45,10 +45,24 @@ namespace GameOfLife.Controllers
             return View("Index", board);
         }
 
-        public ActionResult InitBoard(IEnumerable<Cell> cells)
+        [HttpPost]
+        public ActionResult StartGame(IEnumerable<Cell> cells)
         {
+            _game.StartGame(cells);
             return Json(true);
         }
 
+        [HttpPost]
+        public ActionResult UpdateGame()
+        {
+            _game.GetNextGeneration();
+            return Json(true);
+        }
+
+        [HttpPost]
+        public String TestPost()
+        {
+            return "Test Post!";
+        }
     }
 }
