@@ -8,6 +8,7 @@ namespace GameOfLife.GameService
     {
         string GameName { get;  }
         Board InitGame(int size);
+        Board GameBoard { get; set; }
         void StartGame(IEnumerable<Cell> cells);
         void GetNextGeneration();
     }
@@ -36,33 +37,34 @@ namespace GameOfLife.GameService
             {
                 
                 var bc = GameBoard.BoardCells.FirstOrDefault(c => c.Row == lc.Row && c.Column == lc.Column);
-                bc.Live = true;
+                bc.Live = lc.Live;
             }
         }
 
         public void GetNextGeneration()
         {
             GameBoard.BoardCells.ToList().ForEach(c => GoNextGen(c));
+            GameBoard.BoardCells.ToList().ForEach(c => c.Live = c.NextLive);
         }
 
         private void GoNextGen(Cell cell)
         {
-            var nbCount = NeighboursCount(cell, GameBoard.BoardCells.GetEnumerator(), 0);
+            var nbCount = LiveNeighboursCount(cell, GameBoard.BoardCells.GetEnumerator(), 0);
             bool nextStatus = nbCount == 2 && cell.Live || nbCount == 3;
-            cell.Live = nextStatus;
+            cell.NextLive = nextStatus;
         }
 
-        private int NeighboursCount(Cell cell, IEnumerator<Cell> enumerator, int count)
+        private int LiveNeighboursCount(Cell cell, IEnumerator<Cell> enumerator, int count)
         {
             if (!enumerator.MoveNext()) return count;
             var n = enumerator.Current;
 
-            if (cell.IsNeighbor(n))
+            if (cell.IsNeighbor(n) && n.Live)
             {
                 count++;
             }
 
-            return NeighboursCount(cell, enumerator, count);
+            return LiveNeighboursCount(cell, enumerator, count);
         }
     }
 }

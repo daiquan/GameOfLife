@@ -22,7 +22,8 @@ namespace GameOfLife.Controllers
         }
         public ActionResult Index()
         {
-            var board = CreateBoard(12);
+            var board = _game.InitGame(12);
+            ViewBag.GameStarted = false;
             return View(board);
         }
 
@@ -40,17 +41,13 @@ namespace GameOfLife.Controllers
             return View();
         }
 
-        public Board CreateBoard(int boardSize)
-        {
-           var board = _game.InitGame(boardSize);
-            return board;
-        }
-
         [HttpPost]
         public ActionResult StartGame([ModelBinder(typeof(CellBinder))]IEnumerable<Cell> cells)
         {
-            // _game.StartGame(cells);
-            return Json(true);
+            _game.StartGame(cells);
+            _game.GetNextGeneration();
+            ViewBag.GameStarted = true;
+            return View("Index",_game.GameBoard);
         }
 
         [HttpPost]

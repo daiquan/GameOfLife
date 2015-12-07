@@ -20,6 +20,8 @@ namespace GameOfLife.Models
             get { return !Live; }
         }
 
+        public bool NextLive { get; set; }
+
         public bool IsNeighbor(Cell c)
         {
             return Math.Abs(Row - c.Row) < 2
